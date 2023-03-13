@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Karla:wght@700&display=swap');
+
+
+* {
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #F5F7FB;
+    margin: 0px;
+}
+
+h1, h2, h3{
+    font-family: 'Karla', sans-serif;
+    color: #293264;
+}
+
+p{
+    font-family: 'Inter', sans-serif; 
+    margin-bottom: 30px;
+}
+
+section{
+    display: flex;
+    justify-content: center;
+}
+
+.container{
+    text-align: center;
+    padding: 40px;
+}
+
+button{
+    background-color: #4D5B9E;
+    border:none;
+    color: #F5F7FB;
+    font-family: 'Inter', sans-serif;
+    padding: 15px 50px;
+    border-radius: 10px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.quizButtons{
+    border: 1px #4D5B9E solid;
+    background-color: #F5F7FB;
+    color: #293264;
+    margin: 5px;
+}
+
+
+.positionTopRight{
+    position: sticky;
+    top: 0px;
+    left: 100%;
+}
+
+.positionBottomLeft{
+    position: sticky;
+    bottom: 0px;
+    left: 0px;
+}
+
