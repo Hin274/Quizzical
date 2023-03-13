@@ -7,7 +7,6 @@ export default function App() {
     const [isStart, setIsStart] = React.useState(true)
     function startQuiz() {
         setIsStart(prevStart => !prevStart)
-        console.log("clicked")
     }
 
     return (

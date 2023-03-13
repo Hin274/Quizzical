@@ -13,16 +13,19 @@ export default function Questions(props) {
             .then(data => setAllQuestions(data.results))
     }, [])
 
-    
+   
 
     const questions = allQuestions.map(item => {
+        
+const questionType = "boolean"
+
         return (
             <div key={item.question}>
              <h2>{decode(item.question)}</h2>
                 <button className="quizButtons" >{decode(item.correct_answer)}</button>
                 <button className="quizButtons" >{decode(item.incorrect_answers[0])}</button>
-                <button className="quizButtons" >{decode(item.incorrect_answers[1])}</button>
-                <button className="quizButtons" >{decode(item.incorrect_answers[2])}</button>
+                { questionType === item.type ? null :<button className="quizButtons" >{decode(item.incorrect_answers[1])}</button>}
+                { questionType ===item.type ? null: <button className="quizButtons" >{decode(item.incorrect_answers[2])}</button>}
             </div>
         )
     })
