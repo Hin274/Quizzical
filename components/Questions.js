@@ -1,5 +1,6 @@
 import React from "react"
-import {decode} from "html-entities"
+import { decode } from "html-entities"
+import arrayShuffle from "array-shuffle"
 
 export default function Questions(props) {
 
@@ -13,19 +14,20 @@ export default function Questions(props) {
             .then(data => setAllQuestions(data.results))
     }, [])
 
-   
+
 
     const questions = allQuestions.map(item => {
-        
-const questionType = "boolean"
 
+
+        const shuffled = arrayShuffle([(item.correct_answer), (item.incorrect_answers[0]), (item.incorrect_answers[1]), (item.incorrect_answers[2])])
+        
         return (
             <div key={item.question}>
-             <h2>{decode(item.question)}</h2>
-                <button className="quizButtons" >{decode(item.correct_answer)}</button>
-                <button className="quizButtons" >{decode(item.incorrect_answers[0])}</button>
-                { questionType === item.type ? null :<button className="quizButtons" >{decode(item.incorrect_answers[1])}</button>}
-                { questionType ===item.type ? null: <button className="quizButtons" >{decode(item.incorrect_answers[2])}</button>}
+                <h2>{decode(item.question)}</h2>
+                {(shuffled[0]) && <button className="quizButtons" >{decode(shuffled[0])}</button> }
+                {(shuffled[1]) && <button className="quizButtons" >{decode(shuffled[1])}</button> }
+                {(shuffled[2]) && <button className="quizButtons" >{decode(shuffled[2])}</button> }
+                {(shuffled[3]) && <button className="quizButtons" >{decode(shuffled[3])}</button> }
             </div>
         )
     })
@@ -33,12 +35,12 @@ const questionType = "boolean"
     return (
         <div>
             <img src="../images/questions-blob-top-right.png" className="positionTopRight" />
-        <section>
-            <div className="container">
-                {questions}
-            </div>
-        </section>
-        <img src="../images/questions-blob-bottom-left.png" className="positionBottomLeft" />
+            <section> 
+                <div className="container">
+                    {questions}
+                </div>
+            </section>
+            <img src="../images/questions-blob-bottom-left.png" className="positionBottomLeft" />
         </div>
     )
 }

@@ -1,6 +1,7 @@
 {
   "name": "project",
   "dependencies": {
+    "array-shuffle": "^3.0.0",
     "he": "^1.2.0",
     "html-entities": "^2.3.3",
     "react": "17.0.2",
