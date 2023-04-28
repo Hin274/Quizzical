@@ -11,7 +11,9 @@ export default function App() {
 
     return (
         <main>
-            {isStart ? <Start startQuiz={startQuiz}/> : <Questions />}
+          {isStart ? <img src="../images/blob-top-right.png" className="positionTopRight" /> :  <img src="../images/questions-blob-top-right.png" className="positionTopRight" />}  
+            {isStart ? <Start startQuiz={startQuiz} /> : <Questions />}
+            {isStart ? <img src="../images/blob-bottom-left.png" className="positionBottomLeft" /> :  <img src="../images/questions-blob-bottom-left.png" className="positionBottomLeft" />}  
         </main>
     )
 }
