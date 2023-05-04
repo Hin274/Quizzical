@@ -540,16 +540,35 @@ function Questions(props) {
         questionElements = _React$useState4[0],
         setQuestionElements = _React$useState4[1];
 
+    var _React$useState5 = _react2.default.useState({}),
+        _React$useState6 = _slicedToArray(_React$useState5, 2),
+        selectedAnswers = _React$useState6[0],
+        setSelectAnswers = _React$useState6[1];
+
+    var pressButton = function pressButton(key, selectedStringValue) {
+
+        // console.log("pressed button: " + selectedStringValue)
+
+        selectedAnswers[key] = selectedStringValue;
+
+        setSelectAnswers(selectedAnswers);
+    };
+
     _react2.default.useEffect(function () {
-        console.log("calling use effect");
+        // console.log("calling use effect")
         fetch("https://opentdb.com/api.php?amount=5").then(function (res) {
             return res.json();
         }).then(function (data) {
             var results = data.results;
             setAllQuestions(results);
-            console.log("calling map method");
+
+            var defaultAnswers = {};
+
+            // console.log("calling map method")
             var questions = results.map(function (item) {
                 var shuffled = (0, _arrayShuffle2.default)([item.correct_answer, item.incorrect_answers[0], item.incorrect_answers[1], item.incorrect_answers[2]]);
+
+                defaultAnswers[item.question] = "";
 
                 return _react2.default.createElement(
                     "div",
@@ -559,31 +578,53 @@ function Questions(props) {
                         null,
                         (0, _htmlEntities.decode)(item.question)
                     ),
-                    _react2.default.createElement(Answers, { shuffled: shuffled })
+                    _react2.default.createElement(Answers, { shuffled: shuffled, question: item.question, pressButton: pressButton })
                 );
             });
-            console.log(questions);
+            // console.log(questions)
             setQuestionElements(questions);
+            setSelectAnswers(defaultAnswers);
         });
     }, []);
 
-    var _React$useState5 = _react2.default.useState(0),
-        _React$useState6 = _slicedToArray(_React$useState5, 2),
-        score = _React$useState6[0],
-        setScore = _React$useState6[1];
-
-    var _React$useState7 = _react2.default.useState(false),
+    var _React$useState7 = _react2.default.useState(0),
         _React$useState8 = _slicedToArray(_React$useState7, 2),
-        finish = _React$useState8[0],
-        setFinish = _React$useState8[1];
+        score = _React$useState8[0],
+        setScore = _React$useState8[1];
 
-    function checkAnswers(selected) {
+    var _React$useState9 = _react2.default.useState(false),
+        _React$useState10 = _slicedToArray(_React$useState9, 2),
+        finish = _React$useState10[0],
+        setFinish = _React$useState10[1];
+
+    function checkAnswers() {
         setFinish(true);
-        if (selected === item.correct_answer) {
-            setScore(prevScore + 1);
-        } else {
-            score;
+
+        // console.log('my data:', allQuestions)
+        // console.log('my selected answer:', selectedAnswers);
+
+        var newScore = 0;
+
+        // TODO - some code that checks my selected answers if they are correct
+        for (var key in selectedAnswers) {
+            // iterating through an object with keys
+            var anSelectedAnswer = selectedAnswers[key];
+            // console.log('Key is: ' + key)
+            // console.log('Value is: ' + anSelectedAnswer);
+            for (var i = 0; i < allQuestions.length; i++) {
+                if (key == allQuestions[i].question) {
+                    console.log('Key is: ' + key);
+                    console.log(allQuestions[i].question);
+                    if (anSelectedAnswer == allQuestions[i].correct_answer) {
+                        console.log(anSelectedAnswer);
+                        console.log(anSelectedAnswer == allQuestions[i].correct_answer);
+                        setScore(score + 1);
+                    }
+                }
+            }
         }
+        console.log(score);
+        setScore(score);
     }
 
     return _react2.default.createElement(
@@ -608,48 +649,43 @@ function Questions(props) {
 }
 
 function Answers(props) {
-    var shuffled = props.shuffled;
+    var shuffled = props.shuffled,
+        question = props.question;
 
-    var _React$useState9 = _react2.default.useState(-1),
-        _React$useState10 = _slicedToArray(_React$useState9, 2),
-        selected = _React$useState10[0],
-        setSelected = _React$useState10[1];
+    var _React$useState11 = _react2.default.useState(-1),
+        _React$useState12 = _slicedToArray(_React$useState11, 2),
+        selected = _React$useState12[0],
+        setSelected = _React$useState12[1];
 
-    function handleClick(selectedValue) {
-        console.log("selected " + selectedValue);
-        setSelected(selectedValue);
+    function handleClick(selectedIndex) {
+        setSelected(selectedIndex);
     }
+
+    var buttonElements = [];
+
+    var _loop = function _loop(i) {
+        if (shuffled[i]) {
+            buttonElements.push(_react2.default.createElement(
+                "button",
+                {
+                    key: i + '_' + selected,
+                    onClick: function onClick() {
+                        handleClick(i);props.pressButton(question, shuffled[i]);
+                    },
+                    className: "quizButtons" + (selected === i ? " active" : "") },
+                (0, _htmlEntities.decode)(shuffled[i])
+            ));
+        }
+    };
+
+    for (var i = 0; i < 4; i++) {
+        _loop(i);
+    }
+
     return _react2.default.createElement(
         _react2.default.Fragment,
         null,
-        shuffled[0] && _react2.default.createElement(
-            "button",
-            { onClick: function onClick() {
-                    handleClick(0);
-                }, className: "quizButtons" + (selected === 0 ? " active" : "") },
-            (0, _htmlEntities.decode)(shuffled[0])
-        ),
-        shuffled[1] && _react2.default.createElement(
-            "button",
-            { onClick: function onClick() {
-                    handleClick(1);
-                }, className: "quizButtons" + (selected === 1 ? " active" : "") },
-            (0, _htmlEntities.decode)(shuffled[1])
-        ),
-        shuffled[2] && _react2.default.createElement(
-            "button",
-            { onClick: function onClick() {
-                    handleClick(2);
-                }, className: "quizButtons" + (selected === 2 ? " active" : "") },
-            (0, _htmlEntities.decode)(shuffled[2])
-        ),
-        shuffled[3] && _react2.default.createElement(
-            "button",
-            { onClick: function onClick() {
-                    handleClick(3);
-                }, className: "quizButtons" + (selected === 3 ? " active" : "") },
-            (0, _htmlEntities.decode)(shuffled[3])
-        )
+        buttonElements
     );
 }
 
