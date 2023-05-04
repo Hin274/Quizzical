@@ -615,16 +615,16 @@ function Questions(props) {
                 if (key == allQuestions[i].question) {
                     console.log('Key is: ' + key);
                     console.log(allQuestions[i].question);
+                    console.log(anSelectedAnswer);
+                    console.log(anSelectedAnswer == allQuestions[i].correct_answer);
                     if (anSelectedAnswer == allQuestions[i].correct_answer) {
-                        console.log(anSelectedAnswer);
-                        console.log(anSelectedAnswer == allQuestions[i].correct_answer);
-                        setScore(score + 1);
+                        newScore += 1;
                     }
                 }
             }
         }
-        console.log(score);
-        setScore(score);
+        console.log(newScore);
+        setScore(newScore);
     }
 
     return _react2.default.createElement(
